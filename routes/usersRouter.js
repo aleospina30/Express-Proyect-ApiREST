@@ -1,17 +1,21 @@
 const express = require('express');
+const usersService = require('./../services/userServices');
 
 const router = express.Router();
+const service = new usersService();
 
-router.get('/users', (req,res) =>{
-  const { limit, offset } = req.query;
-  if(limit && offset){
-    res.json({
-      limit,
-      offset
-    });
-  } else {
-    res.send('No hay parametros')
-  }
+router.get('/',(req,res)=> {
+  const products = service.find();
+  res.json(products);
 });
+
+// FIND ONE
+router.get('/:id', (req,res) => {
+  const { id } = req.params;
+  const product = service.findOne(id);
+  res.json(product);
+});
+
+
 
 module.exports = router;
